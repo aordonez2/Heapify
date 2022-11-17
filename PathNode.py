@@ -1,14 +1,14 @@
 class PathNode:
     #An ArrayList of vertex IDs ordered by appearance in the path.
-    path = null
+    path = None
     # A refrence to the left child node
-    right_child = null
+    right_child = None
     #A refrence to the right child node
-    left_child = null
+    left_child = None
     #A refrence to the parent node
-    parent_node = null
+    parent_node = None
     #Reference to the node directly to the left on the same tree level.
-    generation_left = null
+    generation_left = None
     #True if the node is last in the level
     is_level_end = False
     #True if the node is the right-most node in the last level.
