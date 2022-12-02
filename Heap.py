@@ -1,6 +1,8 @@
+import Linked_List
 class Heap:
     #Temporary storage for the paths starting at tempPath[1]
-    tempPath = []
+    tempPath = Linked_List.Linked_List()
+
     """
     Reads inputFile given at the command line and places the contents of each line into the
     path field found in each PathNode object. The order is the same as found in the text file.
@@ -12,8 +14,9 @@ class Heap:
         else:
             for i in input_array:
                 print ("Placeholder for loop printing out everything being passed to read_paths")
-                print (input_array[i])
-
+                for j in i:
+                    print(j)
 
     def build_complete_tree(index, parent):
+        #for each index in parent, create a temp path and add it to our heap?
         return None
