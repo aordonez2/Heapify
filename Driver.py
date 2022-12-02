@@ -1,5 +1,6 @@
+#import Heap
+from heap import *
 class Driver:
-    from Heap import read_paths
     try:
         fileName = input("\nEnter File Name:")
         
