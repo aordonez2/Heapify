@@ -12,6 +12,7 @@ class Heap:
         else:
             for i in input_array:
                 print ("Placeholder for loop printing out everything being passed to read_paths")
+                print (input_array[i])
 
 
     def build_complete_tree(index, parent):
