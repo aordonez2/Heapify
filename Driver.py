@@ -1,12 +1,12 @@
 import Heap
 import sys
 
+##obj = Heap.Heap()
+##from Heap import read_paths
 
 class Driver:
-    def main():
-        #with open(sys.argv[1], 'r') as f:
-        #    Heap.Heap.go(f)
-        Heap.Heap.go()
 
-    if __name__ == "__main__":
+    def main():
+        Heap.Heap.read_paths()
+    if __name__=="__main__":
         main()
