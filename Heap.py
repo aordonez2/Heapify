@@ -2,24 +2,24 @@ import PathNode
 import sys
 
 class Heap:
+
+    def __init__(self, path):
+        self.tempPath = []
     """
     Reads inputFile given at the command line and places the contents of each line into the
     path field found in each PathNode object. The order is the same as found in the text file.
     Adds the PathNode object to tempPath starting at tempPath[1].
     """
-    def read_paths():
-        tempPath = []
+    def read_paths(self):
         with open(sys.argv[1]) as f:
             content_list = f.readlines()
         content_list = [x.strip() for x in content_list]
-
         for i in content_list:
             #create pathnode object from current item in content_list
             temp = i.split(" ")
             newPathNode = PathNode.PathNode(temp)
             #add that item to tempPath
-            tempPath.append(newPathNode)
-        print (tempPath)
+            self.tempPath.append(newPathNode)
         
     """
     Recursively builds a complete binary tree. Places PathNode objects in tempPath ArrayList into a

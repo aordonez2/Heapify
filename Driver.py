@@ -7,6 +7,8 @@ import sys
 class Driver:
 
     def main():
-        Heap.Heap.read_paths()
+        myHeap = Heap.Heap()
+        myHeap.read_paths()
+        myHeap.build_tempPath_helper(myHeap.tempPath, content_list) 
     if __name__=="__main__":
         main()
