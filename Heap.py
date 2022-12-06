@@ -37,9 +37,8 @@ class Heap:
 
         for i in content_list: # for every path in the content list,
             # create a new pathnode object from current path in content list
-            newPathNode = PathNode.PathNode(i)
+            newPathNode = PathNode.PathNode()
             #then add that pathnode to a list of nodes
             tempPath.add_node(newPathNode)
         
         build_complete_tree(1, tempPath)#create a heap from all built pathnode objects
-

@@ -1,5 +1,9 @@
 import Linked_List
 
+class PathNode:
+    path = []
+
+
 class BinarySubtree:
     """def __init__(self, parent, left=None, right=None):
         self.parent = parent
@@ -20,8 +24,6 @@ class BinarySubtree:
             self.right = node2
         elif self.right == node2:
             self.right = node1
-
-
 """class PathNode:
 
     new_Path = Linked_List.LinkedList()
