@@ -8,7 +8,7 @@ class PathNode:
         self.right = right"""
     def __init__(self, path):
         self.path = path
-        self.edges = len(path.replace (" ", "")) - 1
+        self.edges = len(path) - 1
         self.parent = None
         self.left = None
         self.right = None

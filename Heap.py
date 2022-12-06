@@ -9,15 +9,14 @@ class Heap:
     """
     def read_paths():
         tempPath = []
-        print("were here!")
         with open(sys.argv[1]) as f:
             content_list = f.readlines()
         content_list = [x.strip() for x in content_list]
 
         for i in content_list:
             #create pathnode object from current item in content_list
-
-            newPathNode = PathNode.PathNode(content_list[i])
+            temp = i.split(" ")
+            newPathNode = PathNode.PathNode(temp)
             #add that item to tempPath
             tempPath.append(newPathNode)
         print (tempPath)
