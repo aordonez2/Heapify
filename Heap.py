@@ -2,7 +2,6 @@ import PathNode
 import sys
 
 class Heap:
-
     """
     Reads inputFile given at the command line and places the contents of each line into the
     path field found in each PathNode object. The order is the same as found in the text file.
@@ -10,33 +9,18 @@ class Heap:
     """
     def read_paths():
         tempPath = []
-
         print("were here!")
         with open(sys.argv[1]) as f:
             content_list = f.readlines()
-        """try:
-            fielName = input("\nEnter Fiel Name: ")
-            
-            with open(fielName) as f:
-                content_list = f.readlines()
-
-            # remove new line characters
-            content_list = [x.strip() for x in content_list]
-            ##obj.read_paths(content_list)
-            Heap.Heap.read_paths(content_list)
-            ##Heap.read_paths(content_list)
-            print("Here")
-            return content_list 
-            except:
-            print('\n\n\nYou have entered an invalid File Name.\n\n\n')"""
         content_list = [x.strip() for x in content_list]
 
         for i in content_list:
             #create pathnode object from current item in content_list
-            #add that item to tempPath
-            tempPath.append()
 
-        print(content_list)
+            newPathNode = PathNode.PathNode(content_list[i])
+            #add that item to tempPath
+            tempPath.append(newPathNode)
+        print (tempPath)
         
     """
     Recursively builds a complete binary tree. Places PathNode objects in tempPath ArrayList into a
@@ -46,15 +30,15 @@ class Heap:
     @param parent Parent of the current node.
     @return A reference to the node just placed in the tree.
     """
-
     def build_complete_tree(index, parent):
+        #create a new tree
+        #for every element in tempPath call insert function
         return None
 
     """
     Recursive method that sets isLevelEnd.
     param root Root of the subtree.
     """
-
     def set_level_end(root):
         return None
 

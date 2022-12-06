@@ -1,18 +1,20 @@
 import Linked_List
 
 class PathNode:
-    path = []
 
-
-class BinarySubtree:
     """def __init__(self, parent, left=None, right=None):
         self.parent = parent
         self.left = left
         self.right = right"""
-    def __init__(self, right, left, parent):
-        self.parent = parent
-        self.left = left
-        self.right = right
+    def __init__(self, path):
+        self.path = path
+        self.edges = len(path.replace (" ", "")) - 1
+        self.parent = None
+        self.left = None
+        self.right = None
+        self.generationLeft = None
+        self.isLevelEnd = False
+        self.isLastNode = False
     
     def swap(self, node1, node2):
         if self.left == node1:
