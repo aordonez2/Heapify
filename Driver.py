@@ -1,12 +1,12 @@
-class Driver:
-    try:
-        fielName = input("\nEnter Fiel Name:")
-        
-        with open(fielName) as f:
-            content_list = f.readlines()
+import Heap
+import sys
 
-        # remove new line characters
-        content_list = [x.strip() for x in content_list]
-        print(content_list)
-    except:
-        print('\n\n\nYou have entered an invalid File Name.\n\n\n')
+##obj = Heap.Heap()
+##from Heap import read_paths
+
+class Driver:
+
+    def main():
+        Heap.Heap.read_paths()
+    if __name__=="__main__":
+        main()
