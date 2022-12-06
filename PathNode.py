@@ -1,15 +1,36 @@
 import Linked_List
 
-Linked_List.Linked_List.myPrint()
-
-class PathNode:
+class BinarySubtree:
+    """def __init__(self, parent, left=None, right=None):
+        self.parent = parent
+        self.left = left
+        self.right = right"""
+    def __init__(self, right, left, parent):
+        self.parent = parent
+        self.left = left
+        self.right = right
     
-    def __init__(self, path, right_child, left_child, parent_node, data):# create a new PathNode
+    def swap(self, node1, node2):
+        if self.left == node1:
+            self.left = node2
+        elif self.left == node2:
+            self.left = node1
+        
+        if self.right == node1:
+            self.right = node2
+        elif self.right == node2:
+            self.right = node1
+
+
+"""class PathNode:
+
+    new_Path = Linked_List.LinkedList()
+    
+    def __init__(self, path, right_child, left_child, parent_node):# create a new PathNode
         self.path = path#An ArrayList of vertex IDs ordered by appearance in the path.
         self.right_child = right_child# A refrence to the right child node
         self.left_child = left_child#A refrence to the left child node
         self.parent_node = parent_node#A refrence to the parent node
-        self.data = data
         generation_left = None
         is_level_end = False
         is_last_node = False
@@ -33,4 +54,4 @@ class PathNode:
     def swap_current_with_other_node_data(self, other_node):
         temp_data = other_node.data
         other_node.data = self.data
-        self.data = temp_data
+        self.data = temp_data"""

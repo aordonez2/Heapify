@@ -1,7 +1,7 @@
 import Linked_List
+import PathNode
+
 class Heap:
-    #Temporary storage for the paths starting at tempPath[1]
-    tempPath = Linked_List.Linked_List()
 
     """
     Reads inputFile given at the command line and places the contents of each line into the
@@ -14,9 +14,32 @@ class Heap:
         else:
             for i in input_array:
                 print ("Placeholder for loop printing out everything being passed to read_paths")
-                for j in i:
-                    print(j)
+                # create a new pathnode
+                newPathNode = PathNode(i, i[2], i[0], i[1])
+                print (newPathNode)
 
     def build_complete_tree(index, parent):
-        #for each index in parent, create a temp path and add it to our heap?
         return None
+
+    def go():
+        #Temporary storage for the paths starting at tempPath[1]
+        tempPath = Linked_List.LinkedList()
+        blankNode = Linked_List.Node()
+        tempPath.add_node(blankNode)#fill in slot one so that we start at tempPath[1]
+
+        fileName = input("\nEnter File Name:")
+        with open(fileName) as f:
+            content_list = f.readlines()
+
+        # remove new line characters
+        content_list = [x.strip() for x in content_list]
+        print(content_list)#raw list of paths
+
+        for i in content_list: # for every path in the content list,
+            # create a new pathnode object from current path in content list
+            newPathNode = PathNode.PathNode(i)
+            #then add that pathnode to a list of nodes
+            tempPath.add_node(newPathNode)
+        
+        build_complete_tree(1, tempPath)#create a heap from all built pathnode objects
+
