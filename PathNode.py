@@ -26,6 +26,10 @@ class PathNode:
             self.right = node2
         elif self.right == node2:
             self.right = node1
+
+    def __repr__(self):
+        return( self.path, self.edges, self.parent, self.left, 
+        self.right, self.generationLeft, self.isLevelEnd, self.isLastNode)
 """class PathNode:
 
     new_Path = Linked_List.LinkedList()

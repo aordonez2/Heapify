@@ -1,12 +1,10 @@
 import PathNode
 import sys
-import Linked_List
 
 class Heap:
 
     def __init__(self):
         self.tempPath = []
-        self.ll = Linked_List.LinkedList()
 
     """
     Reads inputFile given at the command line and places the contents of each line into the
@@ -35,13 +33,49 @@ complete binary tree in order of appearance in the text file.
 @param parent Parent of the current node.
 @return A reference to the node just placed in the tree.
 """
-def build_complete_tree(index, parent, tempPath):
-    if parent == None:
+def build_complete_tree(indexInner, indexOuter, tp):
+    indexOuter = indexOuter + 1
+    if (indexOuter < len(tp)):
+        tp[indexInner].left = tp[indexOuter]
+    indexOuter = indexOuter + 1
+    if (indexOuter < len(tp)):
+        tp[indexInner].right = tp[indexOuter]
+    indexInner = indexInner + 1
+    if (indexInner < len(tp)):
+        build_complete_tree(indexInner, indexOuter, tp)
+    #else:
+    return tp[0]
+#def build_complete_tree(index, tempPath, ll):
+    """if index > len(tempPath) - 1:
         return None
-        
-    parent.left = build_complete_tree(index, tempPath[index + 1], tempPath)#set left of parent node to value of pathnode at index + 1
-    parent.right = build_complete_tree(index, tempPath[index + 2], tempPath)#set right of parent node to value of pathnode at index + 2
+    currentNode = tempPath[index]
+    #ll.add_node(currentNode)#add current to linked list
     
+    #currentNode.left = build_complete_tree(index + 1, tempPath[index + 1], tempPath, ll)#set left of parent node to value of pathnode at index + 1
+    #currentNode.right = build_complete_tree(index + 2, tempPath[index + 2], tempPath, ll)#set right of parent node to value of pathnode at index + 2
+    if (index != len(tempPath) - 1):# if not last node
+        leftIndex = (2 ** index)
+        print ("Value of leftIndex: " + str(leftIndex))
+        print ("Assigning left child to " + str(leftIndex))
+        print ("Assigning right child to " + str(leftIndex + 1))
+        currentNode.left = tempPath[leftIndex]
+        #ll.add_node(tempPath[index + 1])
+        ll.add_node(currentNode)
+    if (index + 1 < len(tempPath) - 1):
+        currentNode.right = tempPath[leftIndex + 1]
+    #ll.add_node(tempPath[index + 2])
+    print_ll_helper(ll)
+    #new_index = index + 1
+    new_indexb =  (index + 1) ** 2
+    build_complete_tree(index + 1, tempPath, ll)"""
+    
+def print_ll_helper(ll):
+    current = ll.head
+    print ("current path: " , current.val.path)
+    if (current.next != None):
+        print ("left child node's path: " , current.val.left.path)
+        print ("Right child node's path: " , current.val.right.path, "\n")
+    print ("=====")
 
 """
 Recursive method that sets isLevelEnd.
