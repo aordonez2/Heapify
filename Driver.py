@@ -11,8 +11,9 @@ def main():
     rootNode = Heap.build_complete_tree(0, 0, myHeap.tempPath)
     ll = Linked_List.LinkedList()
     ll.create_Linked_list(myHeap.tempPath)
+    Heap.heapify(rootNode)
     print ("Seperates here")
-    print_ll_helper(ll.head)
+    #print_ll_helper(ll.head)
     print ("Stop here")
     #myHeap.build_tempPath_helper(myHeap.tempPath, content_list) 
 

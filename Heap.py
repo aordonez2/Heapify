@@ -37,9 +37,11 @@ def build_complete_tree(indexInner, indexOuter, tp):
     indexOuter = indexOuter + 1
     if (indexOuter < len(tp)):
         tp[indexInner].left = tp[indexOuter]
+        tp[indexInner].left.parent = tp[indexInner]
     indexOuter = indexOuter + 1
     if (indexOuter < len(tp)):
         tp[indexInner].right = tp[indexOuter]
+        tp[indexInner].right.parent = tp[indexInner]
     indexInner = indexInner + 1
     if (indexInner < len(tp)):
         build_complete_tree(indexInner, indexOuter, tp)
@@ -76,6 +78,21 @@ def print_ll_helper(ll):
         print ("left child node's path: " , current.val.left.path)
         print ("Right child node's path: " , current.val.right.path, "\n")
     print ("=====")
+
+def heapify(rootNode):
+    currentNode = rootNode
+    while (currentNode.left != None):
+        currentNode = currentNode.left
+    print("CurrentNode is " , str(currentNode.path))
+    currentNode = currentNode.parent
+    print("CurrentNode is " , str(currentNode.path))
+    print("Here")
+
+def compare_child_nodes(parent):
+    childL = parent.left
+    childR = parent.right
+    if (parent.edges > childL.edges):
+        #swap_nodes(parent, parent.left)
 
 """
 Recursive method that sets isLevelEnd.
