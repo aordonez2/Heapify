@@ -41,3 +41,8 @@ class PathNode:
         temp_data = other_node.data
         other_node.data = self.data
         self.data = temp_data
+        
+        
+    def __repr__(self):
+        return( self.path, self.edges, self.parent, self.left, 
+        self.right, self.generationLeft, self.isLevelEnd, self.isLastNode)
