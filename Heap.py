@@ -47,29 +47,6 @@ def build_complete_tree(indexInner, indexOuter, tp):
         build_complete_tree(indexInner, indexOuter, tp)
     #else:
     return tp[0]
-#def build_complete_tree(index, tempPath, ll):
-    """if index > len(tempPath) - 1:
-        return None
-    currentNode = tempPath[index]
-    #ll.add_node(currentNode)#add current to linked list
-    
-    #currentNode.left = build_complete_tree(index + 1, tempPath[index + 1], tempPath, ll)#set left of parent node to value of pathnode at index + 1
-    #currentNode.right = build_complete_tree(index + 2, tempPath[index + 2], tempPath, ll)#set right of parent node to value of pathnode at index + 2
-    if (index != len(tempPath) - 1):# if not last node
-        leftIndex = (2 ** index)
-        print ("Value of leftIndex: " + str(leftIndex))
-        print ("Assigning left child to " + str(leftIndex))
-        print ("Assigning right child to " + str(leftIndex + 1))
-        currentNode.left = tempPath[leftIndex]
-        #ll.add_node(tempPath[index + 1])
-        ll.add_node(currentNode)
-    if (index + 1 < len(tempPath) - 1):
-        currentNode.right = tempPath[leftIndex + 1]
-    #ll.add_node(tempPath[index + 2])
-    print_ll_helper(ll)
-    #new_index = index + 1
-    new_indexb =  (index + 1) ** 2
-    build_complete_tree(index + 1, tempPath, ll)"""
     
 def print_ll_helper(ll):
     current = ll.head
@@ -80,27 +57,79 @@ def print_ll_helper(ll):
     print ("=====")
 
 def heapify(rootNode):
-    currentNode = rootNode
+    print ("Current node: " , str(rootNode.path))#### almost works, right side of tree messed up
+    if rootNode.left != None:
+        if (compare_child_nodes(rootNode) == "left"):
+            heapify(rootNode.left)
+    if (rootNode.right != None):
+        if (compare_child_nodes(rootNode) == "right"):
+            heapify(rootNode.right)
+    if (rootNode.left == None and rootNode.right == None):
+        return None
+    if (rootNode.parent != None):
+        heapify(rootNode.parent)
+
+
+    """currentNode = rootNode #### idk if it works or not
     while (currentNode.left != None):
         currentNode = currentNode.left
     print("CurrentNode is " , str(currentNode.path))
     currentNode = currentNode.parent
     print("CurrentNode is " , str(currentNode.path))
-    print("Here")
-
+    if (rootNode)"""
 def compare_child_nodes(parent):
-    childL = parent.left
+    returnVal = "NA"
+    childL = parent.left#assume for explanation that parent = 3, L = 2, R = 1
     childR = parent.right
-    if (parent.edges > childL.edges):
-        #swap_nodes(parent, parent.left)
+    if (parent.edges > childL.edges):# 3 > 2
+        swap_nodes(parent, parent.left)# so now parent = 2, L = 3, r = 1
+        returnVal = "left"
+        #recursive call?
+    if(parent.edges > childR.edges):# 2 > 1
+        swap_nodes(parent, parent.right)# so now parent = 1, L = 3, r = 2
+        returnVal = "right"
+    return returnVal
+
+def swap_nodes(node1, node2):
+    heldPath = node1.path
+    heldEdges = node1.edges
+    node1.path = node2.path
+    node1.edges = node2.edges
+    node2.path = heldPath
+    node2.edges = heldEdges
+'''def swap_nodes(node1, node2):
+    tempNode = node1
+    node1.path = node2.path
+    node1.edges = len(node1.path) - 1
+    node1.parent = node2.parent
+    node1.left = node2.left
+    node1.right = node2.right
+    if node1.generationLeft != None:
+        node1.generationLeft = node2.generationRight
+    if node1.isLevelEnd != None:
+        node1.isLevelEnd = node2.isLastLevel
+    if node1.isLastNode != None:
+        node1.isLastNode = node2.isLastNode
+
+    node2.path = tempNode.path
+    node2.edges = len(node2.path) - 1
+    node2.parent = tempNode.parent
+    node2.left = tempNode.left
+    node2.right = tempNode.right
+    if node1.generationLeft != None:
+        node2.generationLeft = tempNode.generationRight
+    node2.isLevelEnd = tempNode.isLastLevel
+    node2.isLastNode = tempNode.isLastNode'''
 
 """
 Recursive method that sets isLevelEnd.
 param root Root of the subtree.
 """
-def set_level_end(root):
-    return None
-
+def set_level_ends(rootNode):
+    if rootNode.left == None:
+        return None
+    set_level_ends(rootNode.left)
+    rootNode.isLevelEnd = True
 """
 Recursive method that sets the "generation" link of PathNode objects from right-to-left.
 generation is a term I use to indicate nodes on the same level (these may be siblings or
@@ -110,10 +139,10 @@ cousins)
 def setGenerationLinks( root):
     return None
 
-    """
-    Prints the node information from left-to-right at each level in the tree in the form specified
-    by the examples.
-    @param root Root of the whole tree to begin printing from.
-    """
-    def printTreeLevels( root):
+"""
+Prints the node information from left-to-right at each level in the tree in the form specified
+by the examples.
+@param root Root of the whole tree to begin printing from.
+"""
+def printTreeLevels( root):
         return None
