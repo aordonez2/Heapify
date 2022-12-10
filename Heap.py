@@ -57,7 +57,9 @@ def print_ll_helper(ll):
     print ("=====")
 
 def heapify(rootNode):
-    print ("Current node: " , str(rootNode.path))#### almost works, right side of tree messed up
+    if rootNode == None:
+        return None
+    print ("Current node: " , str(rootNode.path))
     if rootNode.left != None:
         if (compare_child_nodes(rootNode) == "left"):
             heapify(rootNode.left)
@@ -68,6 +70,7 @@ def heapify(rootNode):
         return None
     if (rootNode.parent != None):
         heapify(rootNode.parent)
+    return rootNode
 
 
     """currentNode = rootNode #### idk if it works or not
@@ -99,10 +102,11 @@ def swap_nodes(node1, node2):#probably should move into PathNode, where it has a
         node1.left.parent = node2
     
     #set node1's parent to have pointers to node2
-    if node1.parent.left == node1:
-        node1.parent.left = node2
-    elif node1.parent.right == node1:
-        node1.parent.right = node2
+    if (node1.parent != None):
+        if node1.parent.left == node1:
+            node1.parent.left = node2
+        elif node1.parent.right == node1:
+            node1.parent.right = node2
     
     temp_left_child = node1.left
     temp_right_child = node1.right
@@ -137,11 +141,6 @@ def swap_nodes(node1, node2):#probably should move into PathNode, where it has a
     node2.generationRight = temp_genRight
     node2.isLevelEnd = temp_is_lvl_end
     node2.isLastNode = temp_is_last_node
-    
-    
-    if node1.left 
-    node2.parent = node1.parent
-    node1.parent = node2
 
 """
 Prints the node information from left-to-right at each level in the tree in the form specified

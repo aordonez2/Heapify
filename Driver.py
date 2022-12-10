@@ -9,20 +9,23 @@ def main():
     myHeap = Heap.Heap()
     myHeap.read_paths()
     rootNode = Heap.build_complete_tree(0, 0, myHeap.tempPath)#create an unsorted binary tree from the tempPath
-    ll = Linked_List.LinkedList()
-    ll.create_Linked_list(myHeap.tempPath)#create a linked list from the unsorted binary tree
+    #ll = Linked_List.LinkedList()
+    #ll.create_Linked_list(myHeap.tempPath)#create a linked list from the unsorted binary tree
     print("Doing test print")
     Heap.set_generation_links(rootNode)
     print("Printing contents of linked list prior to heapification")
-    Heap.print_out_outer(rootNode, "Input Before")
+    returnVal = Heap.print_out_outer(rootNode, "Input Before")
+    print (returnVal)
     #level_printer(ll)#print the linked list. (goes level by level of the tree)
 
-    Heap.testing_formatted_print(ll, "inputBefore")
+    Heap.swap_nodes(rootNode.left.left, rootNode.left)
     currentNode = rootNode
     while (currentNode.left != None):
         currentNode = currentNode.left
-    Heap.heapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
-    #Heap.testing_formatted_print(ll, "inputAfter")
+    rootNode = Heap.heapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
+    #Heap.heapify(rootNode)
+    returnVal = Heap.print_out_outer(rootNode, "Input Before")
+    print (returnVal)
     
     Heap.set_level_ends(rootNode)#set the level end fields
     Heap.set_last_node(rootNode)#set last node (bottom right)
