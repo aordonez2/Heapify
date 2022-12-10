@@ -54,23 +54,13 @@ def print_ll_helper(ll):
     if (current.next != None):
         print ("left child node's path: " , current.val.left.path)
         print ("Right child node's path: " , current.val.right.path, "\n")
-    print ("=====")
 
-def heapify(rootNode):
-    if rootNode == None:
-        return None
-    print ("Current node: " , str(rootNode.path))
-    if rootNode.left != None:
-        if (compare_child_nodes(rootNode) == "left"):
-            heapify(rootNode.left)
-    if (rootNode.right != None):
-        if (compare_child_nodes(rootNode) == "right"):
-            heapify(rootNode.right)
-    if (rootNode.left == None and rootNode.right == None):
-        return None
-    if (rootNode.parent != None):
-        heapify(rootNode.parent)
-    return rootNode
+def newHeapify(currentNode):
+    if currentNode == None:
+        return None 
+    compare_child_nodes(currentNode.left)
+    compare_child_nodes(currentNode.right)
+    newHeapify(currentNode.parent)
 
 
     """currentNode = rootNode #### idk if it works or not
@@ -81,22 +71,31 @@ def heapify(rootNode):
     print("CurrentNode is " , str(currentNode.path))
     if (rootNode)"""
 def compare_child_nodes(parent):
+    if parent == None:
+        return None
     returnVal = "NA"
     childL = parent.left#assume for explanation that parent = 3, L = 2, R = 1
     childR = parent.right
-    if (parent.edges > childL.edges):# 3 > 2
-        swap_nodes(parent, parent.left)# so now parent = 2, L = 3, r = 1
-        returnVal = "left"
-        #recursive call?
-    if(parent.edges > childR.edges):# 2 > 1
-        swap_nodes(parent, parent.right)# so now parent = 1, L = 3, r = 2
-        #probably should move into PathNode, where it has a similar method already
-        returnVal = "right"
+    if (parent.edges != None) and (childL.edges != None) and (childR.edges != None):
+        if (parent.edges > childL.edges):# 3 > 2
+            swap_nodes(parent, parent.left)# so now parent = 2, L = 3, r = 1
+            returnVal = "left"
+            #recursive call?
+        if(parent.edges > childR.edges):# 2 > 1
+            swap_nodes(parent, parent.right)# so now parent = 1, L = 3, r = 2
+            #probably should move into PathNode, where it has a similar method already
+            returnVal = "right"
     return returnVal
 
 def swap_nodes(node1, node2):#probably should move into PathNode, where it has a similar method already
     #set node1's subnodes to have pointers to node2
-    if node1.left == node2:
+    temp_path = node1.path
+    temp_edges = node1.edges
+    node1.path = node2.path
+    node1.edges = node2.edges
+    node2.path = temp_path
+    node2.edges = temp_edges
+    '''if node1.left == node2:
         node1.right.parent = node2
     elif node1.right == node2:
         node1.left.parent = node2
@@ -140,18 +139,30 @@ def swap_nodes(node1, node2):#probably should move into PathNode, where it has a
     node2.generationLeft = temp_genLeft
     node2.generationRight = temp_genRight
     node2.isLevelEnd = temp_is_lvl_end
-    node2.isLastNode = temp_is_last_node
+    node2.isLastNode = temp_is_last_node'''
 
 """
 Prints the node information from left-to-right at each level in the tree in the form specified
 by the examples.
 @param root Root of the whole tree to begin printing from.
 """
-def printTreeLevels(rootNode):
-        return None
+def print_tree_levels(rootNode, name):
+    iteration = 0
+    returnString = "diagraph " + name + "{\n"
+    outerNode = rootNode
+    while outerNode != None:
+        innerNode = outerNode
+        while innerNode != None:
+            path = path_finding_helper(innerNode.path)
+            returnString = returnString + "\t\t " + str(iteration) + "[label=\""+ str(innerNode.edges) + path + "\"];\n"
+            iteration = iteration + 1
+            innerNode = innerNode.generationRight
+        outerNode = outerNode.left
+    #print(returnString)
+    return returnString + "}"
 
 
-def testing_formatted_print(ll, name):
+'''def testing_formatted_print(ll, name):
     iteration = 0
     returnString = "diagraph " + name + "{\n"
     head = ll.head
@@ -162,9 +173,9 @@ def testing_formatted_print(ll, name):
         head = head.next
     returnString = returnString + "\t" + str(iteration) + "[label=\""+ str(head.val.edges) + path_finding_helper(head.val.path) + "\"];\n"
     #add bottom printout thing
-    print("Testing print output:")
-    print(returnString)
-    return returnString
+    #print("Testing print output:")
+    #print(returnString)
+    return returnString'''
 
 """Given a path, return a formatted string of that path"""
 def path_finding_helper(edges):
@@ -199,28 +210,18 @@ def set_generation_links(rootNode):
         heldNode.generationLeft = heldNode.parent.left
     return rootNode'''
 
-
-def something(rootNode):
+def set_level_ends(rootNode):
     if rootNode == None:
         return None
-    print(rootNode.path)
-    heldNode = left(rootNode.right)#goes to right child, then recursively left until stoppage
-    print("At" , rootNode.path , " Holding " , heldNode.path)
-    heldNode2 = right(rootNode.left)
-    print("At " ,rootNode.path, "Holding ", heldNode2.path, " And ", heldNode.path)
-    something(rootNode.right)
-    print("Leaving " ,rootNode.path)
-    something(rootNode.left)
-    print("Leaving " ,rootNode.path)
-    return rootNode
+    rootNode.isLevelEnd = True
+    set_level_ends(rootNode.left)
 
-
-def smth(rootNode, iteraton):
+def set_last_node(rootNode):
     if rootNode == None:
         return None
-    smth(rootNode.parent.left)
-    smth(rootNode.left)
-    return rootNode
+    if rootNode.right == None:
+        rootNode.isLastNode = True
+    set_last_node(rootNode.right)
 
 
 def outer(rootNode, outerCount):
@@ -242,27 +243,6 @@ def inner(rootNode, count, outerCount):
     #set heldVal's generation left to return of this next inner function's call?
     inner(rootNode.left, count + 1, outerCount)
     print ("Currently at " , rootNode.path)
-
-def find_depth(rootNode):#goes to the top of the tree, returns the top node
-    if rootNode.parent == None:
-        return rootNode 
-    return find_depth(rootNode.parent)
-
-
-def print_out_outer(rootNode, name):
-    iteration = 0
-    returnString = "diagraph " + name + "{\n"
-    outerNode = rootNode
-    while outerNode != None:
-        innerNode = outerNode
-        while innerNode != None:
-            path = path_finding_helper(innerNode.path)
-            returnString = returnString + "\t" + str(iteration) + "[label=\""+ str(innerNode.edges) + path + "\"];\n"
-            iteration = iteration + 1
-            innerNode = innerNode.generationRight
-        outerNode = outerNode.left
-    #print(returnString)
-    return returnString
 
 
 def dual_go_out(currLeft, currRight):

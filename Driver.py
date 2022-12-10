@@ -9,30 +9,27 @@ def main():
     myHeap = Heap.Heap()
     myHeap.read_paths()
     rootNode = Heap.build_complete_tree(0, 0, myHeap.tempPath)#create an unsorted binary tree from the tempPath
-    #ll = Linked_List.LinkedList()
-    #ll.create_Linked_list(myHeap.tempPath)#create a linked list from the unsorted binary tree
-    print("Doing test print")
     Heap.set_generation_links(rootNode)
-    print("Printing contents of linked list prior to heapification")
-    returnVal = Heap.print_out_outer(rootNode, "Input Before")
+    returnVal = Heap.print_tree_levels(rootNode, sys.argv[2] + "before" )
     print (returnVal)
-    #level_printer(ll)#print the linked list. (goes level by level of the tree)
 
-    Heap.swap_nodes(rootNode.left.left, rootNode.left)
+    f = open(sys.argv[2] + "before.dot", "w")
+    f.write(returnVal)
+    f.close()
+    
     currentNode = rootNode
     while (currentNode.left != None):
         currentNode = currentNode.left
-    rootNode = Heap.heapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
-    #Heap.heapify(rootNode)
-    returnVal = Heap.print_out_outer(rootNode, "Input Before")
+    #rootNode = Heap.newHeapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
+    returnVal = Heap.print_tree_levels(rootNode, sys.argv[2] + "after")
     print (returnVal)
-    
+
+    f = open(sys.argv[2] + "after.dot", "w")
+    f.write(returnVal)
+    f.close()
+
     Heap.set_level_ends(rootNode)#set the level end fields
     Heap.set_last_node(rootNode)#set last node (bottom right)
-    Heap.outer(rootNode, 0)
-
-    print("Printing contents of linked list after to heapification")
-    level_printer(ll)#print the linked list. (goes level by level of the tree)
 
 def placeHolder_trav(rootNode):# goes root, leftChild, rightChild
     if (rootNode == None):

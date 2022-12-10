@@ -13,51 +13,6 @@ class PathNode:
         self.generationRight = None
         self.isLevelEnd = False
         self.isLastNode = False
-    
-    def swap(self, node1, node2):
-        temp = node1
-        temp1L = node1.left
-        temp1R = node1.right
-        temp1P = node1.parent
-        temp1LP = node1.left.parent # can we just use node1?
-        temp1RP = node1.right.parent
-        if node1.parent.left.path == node1.path:
-            temp1PC = node1.parent.L
-        elif node1.parent.right.path == node1.path:
-            temp1PC = node1.parent.R
-
-        #saving node1 pointers done, assign node2 pointers to node1
-        node1.left = node2.left
-        node1.right = node2.right
-        node1.parent = node2.parent
-        #do parent/child pointers
-        node1.left.parent = node2
-        node1.right.parent = node2
-
-        node1.parent = node2.parent
-        if (node1.parent != None):
-            if (node1.parent.left.path == node1.path):
-                node1.parent.left = node2
-            elif (node1.parent.right.path == node1.path):
-                node1.parent.right = node2
-
-        #applying tempNode pointers to node2
-        node2.left = temp1L
-        node2.right = temp1R
-        node2.parent = temp
-        if (node2.left != None):
-            node2.left.parent = temp1LP
-        if (node2.right != None):
-            node2.right.parent = temp1RP
-        '''if self.left == node1:
-            self.left = node2
-        elif self.left == node2:
-            self.left = node1
-        
-        if self.right == node1:
-            self.right = node2
-        elif self.right == node2:
-            self.right = node1'''
 """class PathNode:
 
     new_Path = Linked_List.LinkedList()
