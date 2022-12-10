@@ -91,11 +91,13 @@ def compare_nodes_test(rootNode):
         return None
     if rootNode.left != None:# same as below but left before right
         if rootNode.edges > rootNode.left.edges:
-            swap_nodes(rootNode, rootNode.left)
+            #swap_nodes(rootNode, rootNode.left)
+            testing_swap(rootNode, rootNode.left)
             compare_nodes_test(rootNode.left)
     if rootNode.right != None:
         if rootNode.edges > rootNode.right.edges:
-            swap_nodes(rootNode, rootNode.right)
+            #swap_nodes(rootNode, rootNode.right)
+            testing_swap(rootNode, rootNode.right)
             compare_nodes_test(rootNode.right)
     '''if rootNode.right != None:# same as above but right before left
         if rootNode.edges > rootNode.right.edges:
@@ -122,14 +124,19 @@ def compare_child_nodes(parent):
     childR = parent.right
     if (parent.left != None):
         if (parent.edges > childL.edges):# 3 > 2
-            swap_nodes(parent, parent.left)# so now parent = 2, L = 3, r = 1
-            returnVal = parent
+            #swap_nodes(parent, parent.left)# so now parent = 2, L = 3, r = 1
+            testing_swap(parent, parent.left)
+            #returnVal = parent
             #recursive call?
+            compare_child_nodes(parent, parent.left)#need to ensure lower levels are still heaped
     if (parent.right != None):
         if(parent.edges > childR.edges):# 2 > 1
-            swap_nodes(parent, parent.right)# so now parent = 1, L = 3, r = 2
+            #swap_nodes(parent, parent.right)# so now parent = 1, L = 3, r = 2
+            testing_swap(parent, parent.right)
+            #need a recursive call to check lower nodes
+            compare_child_nodes(parent.right)
             #probably should move into PathNode, where it has a similar method already
-            returnVal = parent
+            #returnVal = parent
     return returnVal
 
 def swap_nodes(node1, node2):#probably should move into PathNode, where it has a similar method already
@@ -141,51 +148,107 @@ def swap_nodes(node1, node2):#probably should move into PathNode, where it has a
     node1.edges = node2.edges
     node2.path = temp_path
     node2.edges = temp_edges
-    '''if node1.left == node2:
-        node1.right.parent = node2
-    elif node1.right == node2:
-        node1.left.parent = node2
-    
-    #set node1's parent to have pointers to node2
-    if (node1.parent != None):
-        if node1.parent.left == node1:
-            node1.parent.left = node2
-        elif node1.parent.right == node1:
-            node1.parent.right = node2
-    
-    temp_left_child = node1.left
-    temp_right_child = node1.right
-    temp_parent = node1.parent
-    temp_path = node1.path
-    temp_edges = node1.edges
-    temp_genLeft = node1.generationLeft
-    temp_genRight = node1.generationRight
+
+
+def testing_swap(node1, node2):
+    #handle node1's parent's child pointers
+    node1_is_left_child = False
+    node1_is_right_child = False
+    c1_p_pointer_l = None
+    c1_p_pointer_r = None
+    if node1.parent != None:#if node1 has a parent,
+        p_pointer = node1.parent
+        if p_pointer.left == node1:#and node1 is a left node;
+            node1_is_left_child = True
+            #p_pointer.left = None # temporarily set node 1's parent's .left to none
+        elif p_pointer.right == node1:#Or if node1 is a right node,
+            node1_is_right_child = True
+            #p_pointer.right = None# temporarily set node 1's parent's .right to none
+    #handle node1's child's parent
+    if node1.left == node2:#if the node we're swapping with is on the left,
+        c1_p_pointer_r = node1.right# save node1's right child
+        #c1_p_pointer_r.parent = None
+    elif node1.right == node2:#if the node we're swapping with is on the right,
+        c1_p_pointer_l = node1.left#save node1's left child
+        #c1_p_pointer_l.parent = None
+    #at this point, if node1 has a child that is not node2, that child is saved
+
+    c2_p_pointer_l = None
+    c2_p_pointer_r = None
+
+    #handle node2's child's pointers
+    if node2.left != None:#if node2 has a left child,
+        c2_p_pointer_l = node2.left#save that child
+        #c2_p_pointer_l.parent = None
+    elif node2.right != None:#if node2 has a right child,
+        c2_p_pointer_r = node2.right#save that child
+        #c2_p_pointer_r.parent = None
+    #at this point, if node2 has children, they are saved
+
+    #take the properties of node1 and save them
+    temp_gen_left = node1.generationLeft
+    temp_gen_right = node1.generationRight
     temp_is_lvl_end = node1.isLevelEnd
     temp_is_last_node = node1.isLastNode
-    if node2.left != None:#handles node2's child's pointers
-        node2.left.parent = node1
-    if node2.right != None:
-        node2.right.parent = node1
 
-    node1.left = node2.left
-    node1.right = node2.right
-    node1.parent = node2.parent
-    node1.path = node2.path
-    node1.edges = node2.edges
+    #assign node1's properties to node2's properties
     node1.generationLeft = node2.generationLeft
     node1.generationRight = node2.generationRight
     node1.isLevelEnd = node2.isLevelEnd
     node1.isLastNode = node2.isLastNode
 
-    node2.left = temp_left_child
-    node2.right = temp_right_child
-    node2.parent = temp_parent
-    node2.path = temp_path
-    node2.edges = temp_edges
-    node2.generationLeft = temp_genLeft
-    node2.generationRight = temp_genRight
+    #assign node2's properties to the saved properties originally from 1
+    node2.generationLeft = temp_gen_left
+    node2.generationRight = temp_gen_right
     node2.isLevelEnd = temp_is_lvl_end
-    node2.isLastNode = temp_is_last_node'''
+    node2.isLastNode = temp_is_last_node
+
+    #save node1's pointers\
+    node1_pointer_to_node2_l = None
+    node1_pointer_to_node2_r = None
+    temp_n1_parent = node1.parent
+    if node1.left == node2:# if node2 is a left child node of node1,
+        temp_n1_right = node1.right
+        node1_pointer_to_node2_l = node1.left
+    elif node1.right == node2:# if node2 is a right child node of node1,
+        temp_n1_left = node1.left
+        node1_pointer_to_node2_r = node1.right
+    
+    #assign node1's pointers to node2's pointers
+    node1.parent = node2#otherwise we're just setting node1's parent to itself,
+                        #since node2 is a child of node1
+    node1.left = node2.left
+    node1.right = node2.right
+
+    #assign node2's pointers to node1's saved pointers
+    node2.parent = temp_n1_parent
+    if node1_pointer_to_node2_l != None:#if node2 is a left child of node1,
+        node2.left = node1#set node2's left child to node1
+        #might have to create 'if not none' checks here
+        node2.right = temp_n1_right#set node2's right child to node1's right child if it exists
+    elif node1_pointer_to_node2_r != None:#if node2 is a right child of node1,
+        node2.right = node1#set node2's right child to node1
+        node2.left = temp_n1_left#set node2's left child to node1's left child if it exists
+    
+    ####now, set all the extra node's pointers back to node1 and 2:
+
+    #set node1's original parent and kids pointers to node2
+    if node1_is_left_child == True:#if node1 was originally a left child,
+        p_pointer.left = node2# set that parent's left child pointer to node2
+    elif node1_is_right_child == True:#if node1 was originally a right child,
+        p_pointer.right = node2# set that parent's right child pointer to node2
+    if c1_p_pointer_l != None:#if node1 had a left child,
+        c1_p_pointer_l.parent = node2#set that left child's parent pointer to node2
+    if c1_p_pointer_r != None:#if node1 had a right child,
+        c1_p_pointer_r.parent = node2#set that right child's parent pointer to node2
+
+    #set node2's child pointers to node1
+    if c2_p_pointer_l != None:#if node2 had a left child,
+        c2_p_pointer_l.parent = node1#set it's parent to node1
+    if c2_p_pointer_r != None:# if node2 had a right child,
+        c2_p_pointer_r.parent = node1# set it's parent to node1
+
+
 
 """
 Prints the node information from left-to-right at each level in the tree in the form specified

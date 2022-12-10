@@ -29,8 +29,10 @@ def main():
     while (currentNode.parent != None):#walk back up to the top
         currentNode = currentNode.parent
     rootNode = currentNode
-
     Heap.clear_info(rootNode)#clears out genleft/right, isLevelEnd and isLastNode
+    Heap.set_generation_links(rootNode)
+    Heap.set_level_ends(rootNode)#set the level end fields
+    Heap.set_last_node(rootNode)#set last node (bottom right)
     #we only need to call clear_info if we're swapping out node data and not the physical nodes
     returnVal = Heap.print_tree_levels(rootNode, sys.argv[2] + "after")
     #while loop that walks back up to the top via parent nodes?
@@ -40,8 +42,6 @@ def main():
     f.write(returnVal)
     f.close()
 
-    Heap.set_level_ends(rootNode)#set the level end fields
-    Heap.set_last_node(rootNode)#set last node (bottom right)
 
 def placeHolder_trav(rootNode):# goes root, leftChild, rightChild
     if (rootNode == None):
