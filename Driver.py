@@ -21,10 +21,17 @@ def main():
     f.close()
     
     currentNode = rootNode
-    while (currentNode.left != None):
+    while (currentNode.left != None):#walk to last node on left
         currentNode = currentNode.left
-    rootNode = Heap.newHeapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
+    #rootNode = Heap.newHeapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
+    rootNode = Heap.test_heap(currentNode)
+    currentNode = rootNode
+    while (currentNode.parent != None):#walk back up to the top
+        currentNode = currentNode.parent
+    rootNode = currentNode
+
     returnVal = Heap.print_tree_levels(rootNode, sys.argv[2] + "after")
+    #while loop that walks back up to the top via parent nodes?
     print (returnVal)
 
     f = open(sys.argv[2] + "after.dot", "w")

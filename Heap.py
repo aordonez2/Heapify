@@ -67,6 +67,46 @@ def newHeapify(currentNode):
     return currentNode
 
 
+def test_heap(rootNode):#traverses from leftmost last node to top
+    if rootNode == None:
+        return None
+    #something here, probably inner recursive loop
+    test_inner_recursive(rootNode)
+    test_heap(rootNode.parent)#do a recursive call, using parent node
+    return rootNode # having the top of the tree be the final return value is probably a good idea, but not sure how to go about it
+
+def test_inner_recursive(rootNode):#check child nodes
+    if rootNode == None:
+        return None
+    #compare_nodes_test(rootNode.left)# compare our child nodes
+    compare_nodes_test(rootNode.right)
+    compare_nodes_test(rootNode.left)
+    if (rootNode.parent == None):
+        compare_nodes_test(rootNode)
+    return rootNode
+
+
+def compare_nodes_test(rootNode):
+    if rootNode == None:
+        return None
+    '''if rootNode.left != None:# same as below but left before right
+        if rootNode.edges > rootNode.left.edges:
+            swap_nodes(rootNode, rootNode.left)
+            compare_nodes_test(rootNode.left)
+    if rootNode.right != None:
+        if rootNode.edges > rootNode.right.edges:
+            swap_nodes(rootNode, rootNode.right)
+            compare_nodes_test(rootNode.right)'''
+    if rootNode.right != None:# same as below but left before right
+        if rootNode.edges > rootNode.right.edges:
+            swap_nodes(rootNode, rootNode.right)
+            compare_nodes_test(rootNode.right)
+    if rootNode.left != None:
+        if rootNode.edges > rootNode.left.edges:
+            swap_nodes(rootNode, rootNode.left)
+            compare_nodes_test(rootNode.left)
+
+
     """currentNode = rootNode #### idk if it works or not
     while (currentNode.left != None):
         currentNode = currentNode.left
