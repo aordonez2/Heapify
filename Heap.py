@@ -55,7 +55,7 @@ def print_ll_helper(ll):
         print ("left child node's path: " , current.val.left.path)
         print ("Right child node's path: " , current.val.right.path, "\n")
 
-def newHeapify(currentNode):
+'''def newHeapify(currentNode):
     if currentNode == None:
         return None
     #currentNode = compare_child_nodes(currentNode.left)
@@ -64,7 +64,7 @@ def newHeapify(currentNode):
     compare_child_nodes(currentNode.left)
     compare_child_nodes(currentNode.right)
     newHeapify(currentNode.parent)
-    return currentNode
+    return currentNode'''
 
 
 def test_heap(rootNode):#traverses from leftmost last node to top
