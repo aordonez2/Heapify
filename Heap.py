@@ -92,14 +92,56 @@ def compare_child_nodes(parent):
     return returnVal
 
 def swap_nodes(node1, node2):#probably should move into PathNode, where it has a similar method already
+    #set node1's subnodes to have pointers to node2
+    if node1.left == node2:
+        node1.right.parent = node2
+    elif node1.right == node2:
+        node1.left.parent = node2
+    
+    #set node1's parent to have pointers to node2
+    if node1.parent.left == node1:
+        node1.parent.left = node2
+    elif node1.parent.right == node1:
+        node1.parent.right = node2
+    
+    temp_left_child = node1.left
+    temp_right_child = node1.right
+    temp_parent = node1.parent
     temp_path = node1.path
     temp_edges = node1.edges
-    
-    node1.edges = node2.edges
-    node1.path = node2.path
+    temp_genLeft = node1.generationLeft
+    temp_genRight = node1.generationRight
+    temp_is_lvl_end = node1.isLevelEnd
+    temp_is_last_node = node1.isLastNode
+    if node2.left != None:#handles node2's child's pointers
+        node2.left.parent = node1
+    if node2.right != None:
+        node2.right.parent = node1
 
-    node2.edges = temp_edges
+    node1.left = node2.left
+    node1.right = node2.right
+    node1.parent = node2.parent
+    node1.path = node2.path
+    node1.edges = node2.edges
+    node1.generationLeft = node2.generationLeft
+    node1.generationRight = node2.generationRight
+    node1.isLevelEnd = node2.isLevelEnd
+    node1.isLastNode = node2.isLastNode
+
+    node2.left = temp_left_child
+    node2.right = temp_right_child
+    node2.parent = temp_parent
     node2.path = temp_path
+    node2.edges = temp_edges
+    node2.generationLeft = temp_genLeft
+    node2.generationRight = temp_genRight
+    node2.isLevelEnd = temp_is_lvl_end
+    node2.isLastNode = temp_is_last_node
+    
+    
+    if node1.left 
+    node2.parent = node1.parent
+    node1.parent = node2
 
 """
 Prints the node information from left-to-right at each level in the tree in the form specified
@@ -208,34 +250,27 @@ def find_depth(rootNode):#goes to the top of the tree, returns the top node
     return find_depth(rootNode.parent)
 
 
-def test(rootNode):
-    if rootNode == None:
-        return None
-    goRight(rootNode)
-    goLeft()
-
-def goRight(rootNode):
-    if rootNode == None:
-        return None
-    goRight(rootNode.right)
-    goLeft(rootNode.right)
-
-def goLeft(rootNode):
-    if rootNode == None:
-        return None
-    goLeft(rootNode.left)
-    goRight(rootNode.right)
-
-
-def cousinFinder(currentNode):
-    if (currentNode.left.right != None) and (currentNode.right.left != None):
-        currentNode.right.right.generationLeft = currentNode.left.left
+def print_out_outer(rootNode, name):
+    iteration = 0
+    returnString = "diagraph " + name + "{\n"
+    outerNode = rootNode
+    while outerNode != None:
+        innerNode = outerNode
+        while innerNode != None:
+            path = path_finding_helper(innerNode.path)
+            returnString = returnString + "\t" + str(iteration) + "[label=\""+ str(innerNode.edges) + path + "\"];\n"
+            iteration = iteration + 1
+            innerNode = innerNode.generationRight
+        outerNode = outerNode.left
+    #print(returnString)
+    return returnString
 
 
 def dual_go_out(currLeft, currRight):
     if currLeft == None or currRight == None:
         return None
     currRight.generationLeft = currLeft
+    currLeft.generationRight = currRight
     dual_go_in(currLeft.right, currRight.left)
 
 def dual_go_in(currLeft, currRight):
@@ -243,4 +278,5 @@ def dual_go_in(currLeft, currRight):
         return None
     if (currLeft != currRight):#if not firstrun
         currRight.generationLeft = currLeft
+        currLeft.generationRight = currRight
     dual_go_out(currLeft.left, currRight.right)

@@ -10,6 +10,7 @@ class PathNode:
         #Reference to the node directly to the left on the same tree level. */
         #Alternatively you could do generationRight instead going to the right
         self.generationLeft = None
+        self.generationRight = None
         self.isLevelEnd = False
         self.isLastNode = False
     

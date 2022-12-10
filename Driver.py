@@ -14,7 +14,8 @@ def main():
     print("Doing test print")
     Heap.set_generation_links(rootNode)
     print("Printing contents of linked list prior to heapification")
-    level_printer(ll)#print the linked list. (goes level by level of the tree)
+    Heap.print_out_outer(rootNode, "Input Before")
+    #level_printer(ll)#print the linked list. (goes level by level of the tree)
 
     Heap.testing_formatted_print(ll, "inputBefore")
     currentNode = rootNode
