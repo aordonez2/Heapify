@@ -30,6 +30,8 @@ def main():
         currentNode = currentNode.parent
     rootNode = currentNode
 
+    Heap.clear_info(rootNode)#clears out genleft/right, isLevelEnd and isLastNode
+    #we only need to call clear_info if we're swapping out node data and not the physical nodes
     returnVal = Heap.print_tree_levels(rootNode, sys.argv[2] + "after")
     #while loop that walks back up to the top via parent nodes?
     print (returnVal)
