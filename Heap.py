@@ -87,62 +87,160 @@ def compare_child_nodes(parent):
         #recursive call?
     if(parent.edges > childR.edges):# 2 > 1
         swap_nodes(parent, parent.right)# so now parent = 1, L = 3, r = 2
+        #probably should move into PathNode, where it has a similar method already
         returnVal = "right"
     return returnVal
 
-def swap_nodes(node1, node2):
-    heldPath = node1.path
-    heldEdges = node1.edges
-    node1.path = node2.path
+def swap_nodes(node1, node2):#probably should move into PathNode, where it has a similar method already
+    temp_path = node1.path
+    temp_edges = node1.edges
+    
     node1.edges = node2.edges
-    node2.path = heldPath
-    node2.edges = heldEdges
-'''def swap_nodes(node1, node2):
-    tempNode = node1
     node1.path = node2.path
-    node1.edges = len(node1.path) - 1
-    node1.parent = node2.parent
-    node1.left = node2.left
-    node1.right = node2.right
-    if node1.generationLeft != None:
-        node1.generationLeft = node2.generationRight
-    if node1.isLevelEnd != None:
-        node1.isLevelEnd = node2.isLastLevel
-    if node1.isLastNode != None:
-        node1.isLastNode = node2.isLastNode
 
-    node2.path = tempNode.path
-    node2.edges = len(node2.path) - 1
-    node2.parent = tempNode.parent
-    node2.left = tempNode.left
-    node2.right = tempNode.right
-    if node1.generationLeft != None:
-        node2.generationLeft = tempNode.generationRight
-    node2.isLevelEnd = tempNode.isLastLevel
-    node2.isLastNode = tempNode.isLastNode'''
-
-"""
-Recursive method that sets isLevelEnd.
-param root Root of the subtree.
-"""
-def set_level_ends(rootNode):
-    if rootNode.left == None:
-        return None
-    set_level_ends(rootNode.left)
-    rootNode.isLevelEnd = True
-"""
-Recursive method that sets the "generation" link of PathNode objects from right-to-left.
-generation is a term I use to indicate nodes on the same level (these may be siblings or
-cousins)
-@param root Root of the subtree.
-"""
-def setGenerationLinks( root):
-    return None
+    node2.edges = temp_edges
+    node2.path = temp_path
 
 """
 Prints the node information from left-to-right at each level in the tree in the form specified
 by the examples.
 @param root Root of the whole tree to begin printing from.
 """
-def printTreeLevels( root):
+def printTreeLevels(rootNode):
         return None
+
+
+def testing_formatted_print(ll, name):
+    iteration = 0
+    returnString = "diagraph " + name + "{\n"
+    head = ll.head
+    while head.next != None:
+        path = path_finding_helper(head.val.path)
+        returnString = returnString + "\t" + str(iteration) + "[label=\""+ str(head.val.edges) + path + "\"];\n"
+        iteration = iteration + 1
+        head = head.next
+    returnString = returnString + "\t" + str(iteration) + "[label=\""+ str(head.val.edges) + path_finding_helper(head.val.path) + "\"];\n"
+    #add bottom printout thing
+    print("Testing print output:")
+    print(returnString)
+    return returnString
+
+"""Given a path, return a formatted string of that path"""
+def path_finding_helper(edges):
+    returnString = "("
+    length = len(edges)
+    if (length == 2):
+        returnString = returnString + str(edges[0]) + ", " + str(edges[1]) + ")"
+    elif (length > 2):
+        i = 0
+        while (i < len(edges) - 1):
+            returnString = returnString + str(edges[i]) + ", "
+            i = i + 1
+        returnString = returnString + str(edges[i]) + ")"
+    return returnString
+
+
+def set_generation_links(rootNode):
+    if rootNode == None:
+        return None
+    dual_go_in(rootNode, rootNode)
+    set_generation_links(rootNode.right)
+    set_generation_links(rootNode.left)
+    '''print("At " , rootNode.path)
+    #cousinFinder(rootNode)
+    dual_go_in(rootNode, rootNode)
+    if (rootNode.right != None):
+        rootNode.right.generationLeft = rootNode.left#sets current rootNode's right node's generation left
+    set_generation_links(rootNode.left)
+    heldNode = set_generation_links(rootNode.right)
+    if heldNode != None:
+        print("HeldNode " , heldNode.path)
+        heldNode.generationLeft = heldNode.parent.left
+    return rootNode'''
+
+
+def something(rootNode):
+    if rootNode == None:
+        return None
+    print(rootNode.path)
+    heldNode = left(rootNode.right)#goes to right child, then recursively left until stoppage
+    print("At" , rootNode.path , " Holding " , heldNode.path)
+    heldNode2 = right(rootNode.left)
+    print("At " ,rootNode.path, "Holding ", heldNode2.path, " And ", heldNode.path)
+    something(rootNode.right)
+    print("Leaving " ,rootNode.path)
+    something(rootNode.left)
+    print("Leaving " ,rootNode.path)
+    return rootNode
+
+
+def smth(rootNode, iteraton):
+    if rootNode == None:
+        return None
+    smth(rootNode.parent.left)
+    smth(rootNode.left)
+    return rootNode
+
+
+def outer(rootNode, outerCount):
+    if rootNode == None:
+        return None
+    print ("Currently at " , rootNode.path)
+    inner(rootNode.right, 0, outerCount)
+    print ("Currently at " , rootNode.path)
+    outer(rootNode.left)
+    print ("Currently at " , rootNode.path)
+
+
+def inner(rootNode, count, outerCount):
+    if rootNode.right == None:
+        return (rootNode, count, outerCount)
+    print ("Currently at " , rootNode.path)
+    heldVal = inner(rootNode.right, count + 1, outerCount)
+    print ("Currently at " , rootNode.path, "Inner index " , heldVal)
+    #set heldVal's generation left to return of this next inner function's call?
+    inner(rootNode.left, count + 1, outerCount)
+    print ("Currently at " , rootNode.path)
+
+def find_depth(rootNode):#goes to the top of the tree, returns the top node
+    if rootNode.parent == None:
+        return rootNode 
+    return find_depth(rootNode.parent)
+
+
+def test(rootNode):
+    if rootNode == None:
+        return None
+    goRight(rootNode)
+    goLeft()
+
+def goRight(rootNode):
+    if rootNode == None:
+        return None
+    goRight(rootNode.right)
+    goLeft(rootNode.right)
+
+def goLeft(rootNode):
+    if rootNode == None:
+        return None
+    goLeft(rootNode.left)
+    goRight(rootNode.right)
+
+
+def cousinFinder(currentNode):
+    if (currentNode.left.right != None) and (currentNode.right.left != None):
+        currentNode.right.right.generationLeft = currentNode.left.left
+
+
+def dual_go_out(currLeft, currRight):
+    if currLeft == None or currRight == None:
+        return None
+    currRight.generationLeft = currLeft
+    dual_go_in(currLeft.right, currRight.left)
+
+def dual_go_in(currLeft, currRight):
+    if currLeft == None or currRight == None:
+        return None
+    if (currLeft != currRight):#if not firstrun
+        currRight.generationLeft = currLeft
+    dual_go_out(currLeft.left, currRight.right)

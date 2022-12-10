@@ -11,15 +11,21 @@ def main():
     rootNode = Heap.build_complete_tree(0, 0, myHeap.tempPath)#create an unsorted binary tree from the tempPath
     ll = Linked_List.LinkedList()
     ll.create_Linked_list(myHeap.tempPath)#create a linked list from the unsorted binary tree
+    print("Doing test print")
+    Heap.set_generation_links(rootNode)
     print("Printing contents of linked list prior to heapification")
     level_printer(ll)#print the linked list. (goes level by level of the tree)
 
+    Heap.testing_formatted_print(ll, "inputBefore")
     currentNode = rootNode
     while (currentNode.left != None):
         currentNode = currentNode.left
     Heap.heapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
+    #Heap.testing_formatted_print(ll, "inputAfter")
     
-    set_level_ends(rootNode)#set the level end fields
+    Heap.set_level_ends(rootNode)#set the level end fields
+    Heap.set_last_node(rootNode)#set last node (bottom right)
+    Heap.outer(rootNode, 0)
 
     print("Printing contents of linked list after to heapification")
     level_printer(ll)#print the linked list. (goes level by level of the tree)
@@ -71,6 +77,7 @@ def level_printer(ll):#needs to be done inside heap and with the rootNode
         print (head.val.path)
         head = head.next
     print (head.val.path)
+
 
 if __name__=="__main__":
     main()
