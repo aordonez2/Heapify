@@ -1,3 +1,33 @@
+
+"""
+    A class used to represent an PathNode Object
+
+    This calss asign the  path, edges, parent, left, right, generationLeft,
+    generationRight, isLevelEnd, isLastNode to the PathNode object.
+
+
+    Attributes
+    ----------
+    path : str
+        the name of the path 
+    edges: int
+       the number if edges of the path 
+    parent : PathNode Object
+        the PathNode Object representing the parent of the node
+    left : PathNode Object
+        the object that represent the left chile of the PathNode Object
+    right: PathNode Object
+        the object that represent the right child of the PathNode Object
+    generationLeft: PathNode Object
+        the the object that represent the right left sibling of the PathNode Object
+    generationRight: PathNode Object
+        the object that represent the right sibling of the PathNode Object
+    isLevelEnd: boolian
+        ture if the node represents the level of the tree
+    isLastNode: PathNode Object
+        true if the node represnt the last value if of the tree  
+"""
+
 class PathNode:
     #An ArrayList of vertex IDs ordered by appearance in the path.
     path = None
