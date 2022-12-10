@@ -57,10 +57,14 @@ def print_ll_helper(ll):
 
 def newHeapify(currentNode):
     if currentNode == None:
-        return None 
+        return None
+    #currentNode = compare_child_nodes(currentNode.left)
+    #currentNode = compare_child_nodes(currentNode.right)
+    #currentNode = compare_child_nodes(currentNode)
     compare_child_nodes(currentNode.left)
     compare_child_nodes(currentNode.right)
     newHeapify(currentNode.parent)
+    return currentNode
 
 
     """currentNode = rootNode #### idk if it works or not
@@ -73,24 +77,26 @@ def newHeapify(currentNode):
 def compare_child_nodes(parent):
     if parent == None:
         return None
-    returnVal = "NA"
+    returnVal = parent
     childL = parent.left#assume for explanation that parent = 3, L = 2, R = 1
     childR = parent.right
-    if (parent.edges != None) and (childL.edges != None) and (childR.edges != None):
+    if (parent.left != None):
         if (parent.edges > childL.edges):# 3 > 2
             swap_nodes(parent, parent.left)# so now parent = 2, L = 3, r = 1
-            returnVal = "left"
+            returnVal = parent
             #recursive call?
+    if (parent.right != None):
         if(parent.edges > childR.edges):# 2 > 1
             swap_nodes(parent, parent.right)# so now parent = 1, L = 3, r = 2
             #probably should move into PathNode, where it has a similar method already
-            returnVal = "right"
+            returnVal = parent
     return returnVal
 
 def swap_nodes(node1, node2):#probably should move into PathNode, where it has a similar method already
     #set node1's subnodes to have pointers to node2
     temp_path = node1.path
     temp_edges = node1.edges
+    temp_parent = node1.parent
     node1.path = node2.path
     node1.edges = node2.edges
     node2.path = temp_path
@@ -148,7 +154,7 @@ by the examples.
 """
 def print_tree_levels(rootNode, name):
     iteration = 0
-    returnString = "diagraph " + name + "{\n"
+    returnString = "digraph " + name + "{\n"
     outerNode = rootNode
     while outerNode != None:
         innerNode = outerNode
@@ -159,7 +165,17 @@ def print_tree_levels(rootNode, name):
             innerNode = innerNode.generationRight
         outerNode = outerNode.left
     #print(returnString)
-    return returnString + "}"
+    outerCount = 0
+    innerCount = 1
+    while innerCount < iteration:
+        returnString = returnString + "\t\t " + str(outerCount) + " -> " + str(innerCount) + ";\n"
+        innerCount = innerCount + 1
+        if (innerCount < iteration):
+            returnString = returnString + "\t\t " + str(outerCount) + " -> " + str(innerCount) + ";\n"
+        outerCount = outerCount + 1
+        innerCount = innerCount + 1
+    returnString = returnString + "}"
+    return returnString
 
 
 '''def testing_formatted_print(ll, name):

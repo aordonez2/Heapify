@@ -13,6 +13,9 @@ def main():
     returnVal = Heap.print_tree_levels(rootNode, sys.argv[2] + "before" )
     print (returnVal)
 
+    Heap.set_level_ends(rootNode)#set the level end fields
+    Heap.set_last_node(rootNode)#set last node (bottom right)
+
     f = open(sys.argv[2] + "before.dot", "w")
     f.write(returnVal)
     f.close()
@@ -20,7 +23,7 @@ def main():
     currentNode = rootNode
     while (currentNode.left != None):
         currentNode = currentNode.left
-    #rootNode = Heap.newHeapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
+    rootNode = Heap.newHeapify(currentNode.parent)#heapifies the tree starting from the last leftmost node that is not a leaf
     returnVal = Heap.print_tree_levels(rootNode, sys.argv[2] + "after")
     print (returnVal)
 
